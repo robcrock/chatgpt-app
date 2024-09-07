@@ -2,7 +2,7 @@
 
 import { getCompletion } from "@/app/server-actions/getCompletion";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,17 @@ interface Message {
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
+  const chatId = useRef<number | null>(null);
 
-  const onClick = async () => {
-    const completions = await getCompletion([
+  const handleClick = async () => {
+    const completions = await getCompletion(chatId.current, [
       ...messages,
       {
         role: "user",
         content: message,
       },
     ]);
+    chatId.current = completions.id;
     setMessage("");
     setMessages(completions.messages);
   };
@@ -54,11 +56,11 @@ export default function Chat() {
           onChange={(e) => setMessage(e.target.value)}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onClick();
+              handleClick();
             }
           }}
         />
-        <Button onClick={onClick} className="ml-3 text-xl">
+        <Button onClick={handleClick} className="ml-3 text-xl">
           Send
         </Button>
       </div>
