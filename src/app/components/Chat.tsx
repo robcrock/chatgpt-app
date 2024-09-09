@@ -22,7 +22,7 @@ export default function Chat({
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [message, setMessage] = useState("");
-  const chatId = useRef<number | null>(null);
+  const chatId = useRef<number | null>(id);
   const router = useRouter();
 
   const handleClick = async () => {

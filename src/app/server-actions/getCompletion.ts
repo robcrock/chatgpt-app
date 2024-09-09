@@ -33,6 +33,7 @@ export async function getCompletion(
 
   let chatId = id;
   if (!chatId) {
+    console.log("not chatId", chatId);
     if (session?.user?.email) {
       chatId = await createChat(
         session.user.email,
@@ -43,6 +44,7 @@ export async function getCompletion(
       throw new Error("User email is required to create a chat");
     }
   } else {
+    console.log("udpateChat", chatId);
     await updateChat(chatId, messages);
   }
 
