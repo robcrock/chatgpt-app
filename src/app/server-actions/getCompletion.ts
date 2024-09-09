@@ -33,11 +33,15 @@ export async function getCompletion(
 
   let chatId = id;
   if (!chatId) {
-    chatId = await createChat(
-      session?.user?.email!,
-      messageHistory[0].content,
-      messages,
-    );
+    if (session?.user?.email) {
+      chatId = await createChat(
+        session.user.email,
+        messageHistory[0].content,
+        messages,
+      );
+    } else {
+      throw new Error("User email is required to create a chat");
+    }
   } else {
     await updateChat(chatId, messages);
   }
