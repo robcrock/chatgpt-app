@@ -75,7 +75,13 @@ export async function getMessages(chatId: number) {
   }));
 }
 
-export async function updateChat(chatId: number, msgs: Message[]) {
+export async function updateChat(chatId: number | null, msgs: Message[]) {
+  if (!process.env.POSTGRES_URL) {
+    console.log("The .env is..", process.env);
+    throw new Error(
+      `POSTGRES_URL is not defined in the environment variables. The process is ${process.env.POSTGRES_URL}`,
+    );
+  }
   await sql`DELETE FROM messages WHERE chat_id = ${chatId}`;
   for (const msg of msgs) {
     await sql`INSERT INTO messages (chat_id, role, content) VALUES (${chatId}, ${msg.role}, ${msg.content})`;

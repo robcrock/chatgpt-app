@@ -1,4 +1,4 @@
-import { Message } from "@/types";
+import type { Message as AIMessage } from "ai";
 
 const truncateText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {
@@ -11,7 +11,7 @@ export default function Transcript({
   messages,
   truncate = true,
 }: {
-  messages: Message[];
+  messages: AIMessage[];
   truncate?: boolean;
 }) {
   return (
