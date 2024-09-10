@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { Message as AIMessage } from "ai";
 
 import { Separator } from "@/components/ui/separator";
 import Transcript from "./Transcript";
@@ -25,7 +26,11 @@ export default async function PreviousChats() {
                   {chat.name}
                 </Link>
                 <div className="p-3">
-                  <Transcript messages={chat.messages.slice(0, 2)} />
+                  <Transcript
+                    messages={
+                      chat.messages.slice(0, 2) as unknown as AIMessage[]
+                    }
+                  />
                 </div>
               </div>
             ))}
