@@ -7,11 +7,9 @@ import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Transcript from "./Transcript";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
+import { Message } from "@/types";
 
 export default function Chat({
   id = null,
@@ -44,22 +42,7 @@ export default function Chat({
 
   return (
     <div className="flex flex-col">
-      {messages.map((message, i) => (
-        <div
-          key={i}
-          className={`mb-5 flex flex-col ${
-            message.role === "user" ? "items-end" : "items-start"
-          }`}
-        >
-          <div
-            className={`${
-              message.role === "user" ? "bg-blue-500" : "bg-gray-500 text-black"
-            } rounded-md px-8 py-2`}
-          >
-            {message.content}
-          </div>
-        </div>
-      ))}
+      <Transcript messages={messages} truncate={false} />
       <div className="mt-3 flex border-t-2 border-t-gray-500 pt-3">
         <Input
           className="flex-grow text-xl"
